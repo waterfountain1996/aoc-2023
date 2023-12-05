@@ -35,92 +35,12 @@ func (rm *RangeMap) Map(value int) (int, bool) {
 	return value, false
 }
 
-func (rm *RangeMap) MapRange(r *Range) ([]*Range, bool) {
-	ranges := []*Range{}
-	ok := true
-
-	src := rm.Src
-
-	if r.Start < src.Start {
-		if r.End() <= src.Start {
-			fmt.Printf("Range %s is to the left of %s\n", r.String(), src.String())
-			ranges = append(ranges, r)
-			ok = false
-		} else if r.End() <= src.End() {
-			fmt.Printf("Range %s (%d) left intersects %s, ", r.String(), r.Length, src.String())
-
-			outer := Range{
-				Start:  r.Start,
-				Length: src.Start - r.Start,
-			}
-
-			inner := Range{
-				Start:  rm.Dst.Start,
-				Length: r.Length - outer.Length,
-			}
-
-			ranges = append(ranges, &outer, &inner)
-
-			fmt.Printf(
-				"which remaps to %s (%d) and %s (%d)\n",
-				outer.String(), outer.Length,
-				inner.String(), inner.Length,
-			)
-
-		} else {
-			fmt.Printf("Range %s is larger than %s\n", r.String(), src.String())
-
-			leftOuter := Range{
-				Start:  r.Start,
-				Length: src.Start - r.Start,
-			}
-
-			inner := rm.Dst
-
-			rightOuter := Range{
-				Start:  src.End(),
-				Length: r.Length - src.End(),
-			}
-
-			ranges = append(ranges, &leftOuter, &inner, &rightOuter)
-		}
-	} else if r.Start < src.End() {
-		start, _ := rm.Map(r.Start)
-		if r.End() > src.End() {
-			fmt.Printf("Range %s (%d) right intersects %s, ", r.String(), r.Length, src.String())
-
-			inner := Range{
-				Start:  start,
-				Length: src.End() - r.Start,
-			}
-
-			outer := Range{
-				Start:  src.End(),
-				Length: r.Length - inner.Length,
-			}
-
-			ranges = append(ranges, &outer, &inner)
-
-			fmt.Printf(
-				"which remaps to %s (%d) and %s (%d)\n",
-				outer.String(), outer.Length,
-				inner.String(), inner.Length,
-			)
-
-		} else {
-			fmt.Printf("Range %s is inside %s\n", r.String(), src.String())
-			ranges = append(ranges, &Range{
-				Start:  start,
-				Length: r.Length,
-			})
-		}
-	} else {
-		fmt.Printf("Range %s is to the right of %s\n", r.String(), src.String())
-		ranges = append(ranges, r)
-		ok = false
+func (rm *RangeMap) RevMap(value int) (int, bool) {
+	if rm.Dst.Contains(value) {
+		return rm.Src.Start + (value - rm.Dst.Start), true
 	}
 
-	return ranges, ok
+	return value, false
 }
 
 type Section struct {
@@ -139,28 +59,15 @@ func (s *Section) Map(value int) int {
 	return value
 }
 
-func (s *Section) MapRange(rng *Range) []*Range {
-	allRanges := []*Range{rng}
-
+func (s *Section) RevMap(value int) int {
 	for _, rngMap := range s.Maps {
-		ranges, ok := rngMap.MapRange(rng)
+		target, ok := rngMap.RevMap(value)
 		if ok {
-			allRanges = append(allRanges, ranges...)
+			return target
 		}
-
-		// if ok {
-		// 	return ranges
-		// }
-
-		// if ok {
-		// 	allRanges = append(allRanges, ranges...)
-		// } else if !check {
-		// 	allRanges = append(allRanges, ranges...)
-		// 	check = true
-		// }
 	}
 
-	return allRanges
+	return value
 }
 
 func newSectionFromScanner(s *bufio.Scanner) *Section {
@@ -255,15 +162,15 @@ func PartA(s *bufio.Scanner) string {
 
 func PartB(s *bufio.Scanner) string {
 	s.Scan()
-	seeds := extractNumbers(s.Text())
 
-	ranges := []*Range{}
+	seeds := extractNumbers(s.Text())
+	seedRanges := []Range{}
 	for i, seed := range seeds {
 		if i % 2 != 0 {
 			continue
 		}
 
-		ranges = append(ranges, &Range{
+		seedRanges = append(seedRanges, Range{
 			Start:  seed,
 			Length: seeds[i+1],
 		})
@@ -277,41 +184,33 @@ func PartB(s *bufio.Scanner) string {
 		if sec == nil {
 			break
 		}
-		sections[sec.Src] = sec
+		sections[sec.Dst] = sec
 	}
 
-	category := "seed"
+	minLocation := 0
+
 	for {
-		section := sections[category]
-		if section == nil {
-			break
+		category := "location"
+		value := minLocation
+
+		for {
+			sec := sections[category]
+
+			category = sec.Src
+			value = sec.RevMap(value)
+
+			if category == "seed" {
+				break
+			}
 		}
 
-		fmt.Printf("Section: %s\n", category)
-
-		newRanges := []*Range{}
-
-		for _, rng := range ranges {
-			result := section.MapRange(rng)
-			fmt.Printf("  Remap %s to %v\n", rng, result)
-			newRanges = append(newRanges, result...)
+		// fmt.Printf("Value: %d\n", value)
+		for _, rng := range seedRanges {
+			if rng.Contains(value) {
+				return strconv.Itoa(minLocation) 
+			}
 		}
 
-		category = section.Dst
-		ranges = newRanges
-
-		fmt.Println()
-
+		minLocation += 1
 	}
-
-	minLocation := -1
-
-	for _, rng := range ranges {
-		// fmt.Printf("%d\n", rng.Start)
-		if minLocation == -1 || rng.Start < minLocation { //&& rng.Start > 0 {
-			minLocation = rng.Start
-		}
-	}
-
-	return strconv.Itoa(minLocation) 
 }
