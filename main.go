@@ -15,6 +15,7 @@ import (
 	"github.com/waterfountain1996/aoc-2023/solutions/day7"
 	"github.com/waterfountain1996/aoc-2023/solutions/day8"
 	"github.com/waterfountain1996/aoc-2023/solutions/day9"
+	"github.com/waterfountain1996/aoc-2023/solutions/day10"
 )
 
 type Solution func(*bufio.Scanner) string
@@ -40,6 +41,8 @@ func main() {
 	solutions["day8:b"] = day8.PartB
 	solutions["day9:a"] = day9.PartA
 	solutions["day9:b"] = day9.PartB
+	solutions["day10:a"] = day10.PartA
+	solutions["day10:b"] = day10.PartB
 
 	var day int
 	var part string
