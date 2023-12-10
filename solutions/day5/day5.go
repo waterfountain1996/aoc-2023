@@ -129,7 +129,7 @@ func PartA(s *bufio.Scanner) string {
 
 	sections := make(map[string]*Section)
 	for {
-		sec := newSectionFromScanner(s)	
+		sec := newSectionFromScanner(s)
 		if sec == nil {
 			break
 		}
@@ -149,7 +149,7 @@ func PartA(s *bufio.Scanner) string {
 			value = sec.Map(value)
 			category = sec.Dst
 
-			if category == "location"{
+			if category == "location" {
 				if minLocation == -1 || value < minLocation {
 					minLocation = value
 				}
@@ -157,7 +157,7 @@ func PartA(s *bufio.Scanner) string {
 		}
 	}
 
-	return strconv.Itoa(minLocation) 
+	return strconv.Itoa(minLocation)
 }
 
 func PartB(s *bufio.Scanner) string {
@@ -166,7 +166,7 @@ func PartB(s *bufio.Scanner) string {
 	seeds := extractNumbers(s.Text())
 	seedRanges := []Range{}
 	for i, seed := range seeds {
-		if i % 2 != 0 {
+		if i%2 != 0 {
 			continue
 		}
 
@@ -180,7 +180,7 @@ func PartB(s *bufio.Scanner) string {
 
 	sections := make(map[string]*Section)
 	for {
-		sec := newSectionFromScanner(s)	
+		sec := newSectionFromScanner(s)
 		if sec == nil {
 			break
 		}
@@ -207,7 +207,7 @@ func PartB(s *bufio.Scanner) string {
 		// fmt.Printf("Value: %d\n", value)
 		for _, rng := range seedRanges {
 			if rng.Contains(value) {
-				return strconv.Itoa(minLocation) 
+				return strconv.Itoa(minLocation)
 			}
 		}
 

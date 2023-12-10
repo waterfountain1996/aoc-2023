@@ -47,11 +47,10 @@ func findPartNumbers(prevLine, line, nextLine string) []int {
 					end = len(line)
 				}
 
-				if (
-					hasSymbols(prevLine[start:end]) ||
+				if hasSymbols(prevLine[start:end]) ||
 					hasSymbols(nextLine[start:end]) ||
 					hasSymbols(line[start:start+1]) ||
-					hasSymbols(line[end-1:end])) {
+					hasSymbols(line[end-1:end]) {
 					num, _ := strconv.Atoi(numString)
 					partNumbers = append(partNumbers, num)
 				}
@@ -67,11 +66,10 @@ func findPartNumbers(prevLine, line, nextLine string) []int {
 		if start < 0 {
 			start = 0
 		}
-		if (
-			hasSymbols(prevLine[start:]) ||
+		if hasSymbols(prevLine[start:]) ||
 			hasSymbols(nextLine[start:]) ||
 			hasSymbols(line[start:start+1]) ||
-			hasSymbols(line[len(line)-1:])) {
+			hasSymbols(line[len(line)-1:]) {
 			num, _ := strconv.Atoi(numString)
 			partNumbers = append(partNumbers, num)
 		}
@@ -97,7 +95,7 @@ func findGearRatios(prevLine, line, nextLine string) []int {
 			tokens := []string{
 				strings.Repeat(".", idx),
 				string(ch),
-				strings.Repeat(".", len(line) - idx - 1),
+				strings.Repeat(".", len(line)-idx-1),
 			}
 			singleGearLine := strings.Join(tokens, "")
 
@@ -122,7 +120,7 @@ func findGearRatios(prevLine, line, nextLine string) []int {
 				continue
 			}
 
-			gearRatios = append(gearRatios, partNumbers[0] * partNumbers[1])
+			gearRatios = append(gearRatios, partNumbers[0]*partNumbers[1])
 		}
 	}
 

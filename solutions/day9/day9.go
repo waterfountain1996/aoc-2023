@@ -35,7 +35,7 @@ func predict(history []int, backwards bool) int {
 	if backwards {
 		initial = prev[0]
 	} else {
-		initial = prev[len(prev) - 1]
+		initial = prev[len(prev)-1]
 	}
 
 	values := []int{initial}
@@ -45,7 +45,7 @@ func predict(history []int, backwards bool) int {
 		allZeros := true
 
 		for i := 1; i < len(prev); i++ {
-			diff := prev[i] - prev[i - 1]
+			diff := prev[i] - prev[i-1]
 			if diff != 0 {
 				allZeros = false
 			}
@@ -55,7 +55,7 @@ func predict(history []int, backwards bool) int {
 		if backwards {
 			values = append(values, current[0])
 		} else {
-			values = append(values, current[len(current) - 1])
+			values = append(values, current[len(current)-1])
 		}
 
 		prev = current

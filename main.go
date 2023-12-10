@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/waterfountain1996/aoc-2023/solutions/day1"
+	"github.com/waterfountain1996/aoc-2023/solutions/day10"
 	"github.com/waterfountain1996/aoc-2023/solutions/day2"
 	"github.com/waterfountain1996/aoc-2023/solutions/day3"
 	"github.com/waterfountain1996/aoc-2023/solutions/day4"
@@ -15,7 +16,6 @@ import (
 	"github.com/waterfountain1996/aoc-2023/solutions/day7"
 	"github.com/waterfountain1996/aoc-2023/solutions/day8"
 	"github.com/waterfountain1996/aoc-2023/solutions/day9"
-	"github.com/waterfountain1996/aoc-2023/solutions/day10"
 )
 
 type Solution func(*bufio.Scanner) string

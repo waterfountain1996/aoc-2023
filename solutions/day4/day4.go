@@ -8,7 +8,7 @@ import (
 )
 
 type card struct {
-	id int
+	id                         int
 	winningNumbers, ownNumbers []int
 }
 
@@ -89,7 +89,7 @@ func PartB(s *bufio.Scanner) string {
 
 		for copies := 0; copies < scratchcards[idx]; copies++ {
 			for offset := 1; offset <= c.NumWinning(); offset += 1 {
-				scratchcards[idx + offset] += 1
+				scratchcards[idx+offset] += 1
 			}
 		}
 

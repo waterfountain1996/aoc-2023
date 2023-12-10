@@ -73,10 +73,10 @@ func dfs(s Sketch, visited map[Point]bool, i, j int, depth int) ([]Point, bool) 
 		}
 
 		if canGoTo(Point{I: i, J: j}, dir, dst) {
-		   path, ok := dfs(s, visited, dir.I, dir.J, depth + 1)
-		   if ok {
-			   return append([]Point{src}, path...), true
-		   }
+			path, ok := dfs(s, visited, dir.I, dir.J, depth+1)
+			if ok {
+				return append([]Point{src}, path...), true
+			}
 		}
 	}
 
@@ -84,16 +84,16 @@ func dfs(s Sketch, visited map[Point]bool, i, j int, depth int) ([]Point, bool) 
 }
 
 func distance(si, sj, ei, ej int) int {
-	return int(math.Abs(float64(ei - si)) + math.Abs(float64(ej - sj)))
+	return int(math.Abs(float64(ei-si)) + math.Abs(float64(ej-sj)))
 }
 
 func shoelace(nodes []Point) int {
 	sum := 0
 
 	for i := range nodes {
-		a, b := nodes[i], nodes[(i + 1) % len(nodes)]
+		a, b := nodes[i], nodes[(i+1)%len(nodes)]
 		// fmt.Printf("%d x %d - %d x %d\n", a.I, b.J, a.J, b.I)
-		sum += a.I * b.J - a.J * b.I
+		sum += a.I*b.J - a.J*b.I
 	}
 
 	return int(math.Abs(float64(sum))) / 2
@@ -120,12 +120,13 @@ func PartA(s *bufio.Scanner) string {
 	path, _ := dfs(sketch, visited, si, sj, 0)
 
 	for _, node := range path {
-		d := distance(node.I, node.J, si, sj); if d > maxDistance {
+		d := distance(node.I, node.J, si, sj)
+		if d > maxDistance {
 			maxDistance = d
 		}
 	}
 
-	return fmt.Sprintf("%d", len(path) / 2)
+	return fmt.Sprintf("%d", len(path)/2)
 }
 
 func PartB(s *bufio.Scanner) string {
@@ -149,8 +150,8 @@ func PartB(s *bufio.Scanner) string {
 	area := shoelace(path)
 
 	boundary := len(path) / 2
-	if len(path) % 2 != 0 {
-		boundary = len(path) / 2 + 1
+	if len(path)%2 != 0 {
+		boundary = len(path)/2 + 1
 	}
 
 	inner := area - boundary + 1

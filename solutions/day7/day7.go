@@ -181,7 +181,7 @@ func PartA(s *bufio.Scanner) string {
 		hands = append(hands, handFromString(s.Text()))
 	}
 
-	slices.SortFunc(hands, func (a, b Hand) int {
+	slices.SortFunc(hands, func(a, b Hand) int {
 		return a.Cmp(b)
 	})
 
@@ -200,7 +200,7 @@ func PartB(s *bufio.Scanner) string {
 		hands = append(hands, handFromString(s.Text()))
 	}
 
-	slices.SortFunc(hands, func (a, b Hand) int {
+	slices.SortFunc(hands, func(a, b Hand) int {
 		return a.CmpJoker(b)
 	})
 
