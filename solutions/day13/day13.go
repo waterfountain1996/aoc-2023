@@ -10,7 +10,7 @@ type Pattern []string
 
 func scanPatterns(s *bufio.Scanner) []Pattern {
 	patterns := []Pattern{}
-	current  := Pattern{}
+	current := Pattern{}
 
 	for s.Scan() {
 		line := s.Text()
@@ -32,7 +32,7 @@ func scanPatterns(s *bufio.Scanner) []Pattern {
 func findHorizontalReflections(pat Pattern) []int {
 	potentialReflections := []int{}
 
-	for i := 0; i < len(pat) - 1; i++ {
+	for i := 0; i < len(pat)-1; i++ {
 		curr, next := pat[i], pat[i+1]
 		if curr == next {
 			potentialReflections = append(potentialReflections, i)
@@ -47,7 +47,7 @@ func findHorizontalReflections(pat Pattern) []int {
 
 	for _, start := range potentialReflections {
 		ok := true
-		i, j := start, start + 1
+		i, j := start, start+1
 
 		for i >= 0 && j < len(pat) {
 			if pat[i] != pat[j] {
@@ -60,7 +60,7 @@ func findHorizontalReflections(pat Pattern) []int {
 		}
 
 		if ok {
-			reflections = append(reflections, start + 1)
+			reflections = append(reflections, start+1)
 		}
 	}
 
@@ -69,7 +69,7 @@ func findHorizontalReflections(pat Pattern) []int {
 
 func transposePattern(pat Pattern) Pattern {
 	transposed := Pattern{}
-	rowLength  := len(pat[0])
+	rowLength := len(pat[0])
 
 	for i := 0; i < rowLength; i++ {
 		var b strings.Builder
@@ -87,7 +87,7 @@ func PartA(s *bufio.Scanner) string {
 	patterns := scanPatterns(s)
 
 	sum := 0
-	
+
 	for _, pat := range patterns {
 		if r := findHorizontalReflections(transposePattern(pat)); len(r) > 0 {
 			sum += r[0]
@@ -130,7 +130,7 @@ func findPotentialSmudges(pat Pattern) [][]int {
 
 func swapRune(s string, idx int) string {
 	cursor := -1
-	return strings.Map(func (c rune) rune {
+	return strings.Map(func(c rune) rune {
 		cursor++
 
 		if cursor == idx {

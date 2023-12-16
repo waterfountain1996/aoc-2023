@@ -56,7 +56,7 @@ func parseInputOptimized(s *bufio.Scanner, fill int) []Point {
 		}
 
 		for idx, galaxy := range galaxies {
-			if galaxy[0] > rowIdx + rowIncrement  {
+			if galaxy[0] > rowIdx+rowIncrement {
 				galaxy[0] += fill
 				galaxies[idx] = galaxy
 			}
@@ -73,7 +73,7 @@ func parseInputOptimized(s *bufio.Scanner, fill int) []Point {
 		}
 
 		for idx, galaxy := range galaxies {
-			if galaxy[1] > colIdx + colIncrement  {
+			if galaxy[1] > colIdx+colIncrement {
 				galaxy[1] += fill
 				galaxies[idx] = galaxy
 			}

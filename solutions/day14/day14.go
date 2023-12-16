@@ -80,10 +80,10 @@ func (p Platform) Tilt(dir TiltDirection) Platform {
 	case TiltEast:
 		for i, row := range tilted {
 			before := row
-			after  := strings.ReplaceAll(row, s1, s2)
+			after := strings.ReplaceAll(row, s1, s2)
 			for after != before {
 				before = after
-				after  = strings.ReplaceAll(after, s1, s2)
+				after = strings.ReplaceAll(after, s1, s2)
 			}
 
 			tilted[i] = after
@@ -147,7 +147,7 @@ func PartB(s *bufio.Scanner) string {
 
 		if cycleStart := seen[sum]; cycleStart > 0 {
 			cycleLength := i + 1 - cycleStart
-			iterations  := (cycles - cycleStart) % cycleLength
+			iterations := (cycles - cycleStart) % cycleLength
 
 			for j := 0; j < iterations; j++ {
 				platform = platform.SpinCycle()

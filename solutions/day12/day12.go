@@ -65,7 +65,6 @@ func (row *SpringRow) UniqueArrangements() int {
 			}
 		}
 
-
 		newSprings := strings.Join(springs, "")
 		works := true
 		groupIdx := 0
@@ -74,7 +73,7 @@ func (row *SpringRow) UniqueArrangements() int {
 				continue
 			}
 
-			if groupIdx + 1 > len(row.Groups) {
+			if groupIdx+1 > len(row.Groups) {
 				works = false
 				break
 			}
