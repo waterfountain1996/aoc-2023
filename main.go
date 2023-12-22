@@ -15,6 +15,7 @@ import (
 	"github.com/waterfountain1996/aoc-2023/solutions/day15"
 	"github.com/waterfountain1996/aoc-2023/solutions/day16"
 	"github.com/waterfountain1996/aoc-2023/solutions/day18"
+	"github.com/waterfountain1996/aoc-2023/solutions/day19"
 	"github.com/waterfountain1996/aoc-2023/solutions/day2"
 	"github.com/waterfountain1996/aoc-2023/solutions/day3"
 	"github.com/waterfountain1996/aoc-2023/solutions/day4"
@@ -64,6 +65,8 @@ func main() {
 	solutions["day16:b"] = day16.PartB
 	solutions["day18:a"] = day18.PartA
 	solutions["day18:b"] = day18.PartB
+	solutions["day19:a"] = day19.PartA
+	solutions["day19:b"] = day19.PartB
 
 	var day int
 	var part string
