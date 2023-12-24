@@ -2,7 +2,6 @@ package day23
 
 import (
 	"bufio"
-	// "fmt"
 	"maps"
 	"slices"
 	"strconv"
@@ -23,13 +22,19 @@ func (p Point) Inside(matrix [][]rune) bool {
 	return p[0] >= 0 && p[0] < len(matrix) && p[1] >= 0 && p[1] < len(matrix[0])
 }
 
-func findLongestPath(paths [][]rune, start, end Point, visited map[Point]bool) []Point {
-	path := []Point{}
+func findLongestPath(
+	paths [][]rune,
+	start, end Point,
+	visited map[Point]bool,
+	cache map[Point][]Point,
+) []Point {
 	if start == end {
-		return path
+		return []Point{}
+	} else if cached := cache[start]; len(cached) > 0 {
+		return cached
 	}
 
-	path = append(path, start)
+	path := []Point{start}
 
 	visited[start] = true
 
@@ -50,24 +55,36 @@ func findLongestPath(paths [][]rune, start, end Point, visited map[Point]bool) [
 
 	var longest []Point
 
+	reachesEnd := false
+
 	for _, n := range neighbors {
 		if !n.Inside(paths) || paths[n[0]][n[1]] == '#' || visited[n] {
 			continue
 		}
 
+		if n == end {
+			reachesEnd = true
+		}
+
 		subVisited := maps.Clone(visited)
 
-		if tail := findLongestPath(paths, n, end, subVisited); len(tail) > len(longest) {
+		if tail := findLongestPath(paths, n, end, subVisited, cache); len(tail) > len(longest) {
 			longest = tail
 		}
 	}
 
-	return append(path, longest...)
+	if len(longest) == 0 && !reachesEnd {
+		return []Point{}
+	}
+
+	cache[start] = append(path, longest...)
+	return cache[start]
 }
 
 func longestPath(paths [][]rune, start, end Point) int {
 	visited := make(map[Point]bool)
-	return len(findLongestPath(paths, start, end, visited))
+	cache := make(map[Point][]Point)
+	return len(findLongestPath(paths, start, end, visited, cache))
 }
 
 func PartA(s *bufio.Scanner) string {
